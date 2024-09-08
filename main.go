@@ -1,28 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
 func main() {
 	file := NewStorage[Todos]("data.json")
 	todos := Todos{}
-	err := file.Load(&todos)
-	if err != nil {
+	if err := file.Load(&todos); err != nil {
 		log.Fatal("error loading the data from file", err)
 	}
-	todos.add("Add milk 2")
-	todos.add("Add milk 4")
-	if err := todos.toggle(1); err != nil {
-		fmt.Println(err)
-	}
-	todos.print()
-	if err := todos.delete(0); err != nil {
-		fmt.Println(err)
-	}
-	todos.print()
+	cmdFlags := NewCmdFlags()
+	cmdFlags.Execute(&todos)
 	if err := file.Save(todos); err != nil {
-		fmt.Println(err)
+		log.Fatal("error saving the file", err)
 	}
 }

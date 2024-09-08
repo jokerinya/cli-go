@@ -67,6 +67,7 @@ func (t *Todos) validateIndex(index int) error {
 
 func (t *Todos) print() {
 	tbl := table.New(os.Stdout)
+	tbl.SetRowLines(false)
 	headers := []string{"ID"}
 	headers = append(headers, (*t).getKeys()...)
 	tbl.SetHeaders(headers...)
@@ -82,9 +83,9 @@ func (todo *Todo) getValues() []string {
 	var values []string
 	values = append(values, (*todo).Title)
 	if todo.Completed {
-		values = append(values, "DONE!")
+		values = append(values, "✅")
 	} else {
-		values = append(values, "NOT YET")
+		values = append(values, "❌")
 	}
 	values = append(values, (*todo).CreatedAt.Format("2006-01-02 15:04:05"))
 	if todo.CompletedAt != nil {
